@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
     // si login/mot de passe correspondent à des valeurs prédéfinies
     // Si le login vaut "Andre" et le mot de passe vaut "secret"
     // alors mettre à jour l’état avec le login de l’utilisateur connecté ET renvoyer true
-    if (login==="Andre" && password==="secret"){
+    if (login==="Andre" && password==="Secret"){
         setUser(login);
         return true;
     }

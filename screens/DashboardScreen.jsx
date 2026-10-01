@@ -76,6 +76,17 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1 },
   content: { padding: 16 },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: "#4d4d4d",
+    padding: 8,
+    marginBottom: 16,
+    borderRadius: 4,
+  },
+  filterRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
 //réponse à la question 7:
 // prioritée => 

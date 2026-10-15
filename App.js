@@ -28,7 +28,10 @@ const handleSubmit = async () => {
   // Appel de la fonction loginUser avec login et password
   // Pas besoin de naviguer manuellement : App.js bascule automatiquement
   // vers Dashboard dès que le contexte "user" est mis à jour.
-  if (!loginUser(login, password)) {
+  try {
+    // ToDo : appeler
+    await loginUser(login, password)
+  } catch (error) {
     Alert.alert("Identifiants incorrects"); // Affiche une erreur si échec
   }
 };

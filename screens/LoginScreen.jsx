@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { AuthProvider, useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TextInput, Pressable, Alert } from "react-native";
 import { StyleSheet } from "react-native";
@@ -17,15 +17,17 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   
   // 4. Déclaration de la fonction handleSubmit
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Appel de la fonction loginUser avec login et password
-    if (loginUser(login, password)) {
-      navigation.navigate("Dashboard"); // Redirige vers Dashboard si succès
-    } else {
+    // Pas besoin de naviguer manuellement : App.js bascule automatiquement
+    // vers Dashboard dès que le contexte "user" est mis à jour.
+    try {
+      // ToDo : appeler
+      await loginUser(login, password)
+    } catch (error) {
       Alert.alert("Identifiants incorrects"); // Affiche une erreur si échec
     }
   };
-
   // 5. Rend le formulaire
   return (
     <View style={{ flex: 1 }}>

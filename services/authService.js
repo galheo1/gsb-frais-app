@@ -4,7 +4,7 @@ export async function signIn(login, pwd) {
     const response = await fetch(`${API_URL}visiteur/auth`, {
         // TODO : ajouter la méthode
         login: "Andre",
-        pwd: "secret",
+        pwd: "Secret",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login, pwd }),
     });

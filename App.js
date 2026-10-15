@@ -3,15 +3,22 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import DashboardScreen from "./screens/DashboardScreen";
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 const Stack = createNativeStackNavigator();
-
 
 // Composant séparé : nécessaire car useAuth() doit être appelé
 // À L'INTÉRIEUR de <AuthProvider>, pas dans App() qui le pose.
 function AppNavigator() {
-  const { user } = useAuth();
+  const { user, sessionLoading } = useAuth();
+  if (sessionLoading) {
+    // ToDo : renvoyer un écran d’attente avec le composant ActivityIndicator,comme dans DashboardScreen mais avec style={{ flex: 1 }}
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <Stack.Navigator>
@@ -30,7 +37,7 @@ const handleSubmit = async () => {
   // vers Dashboard dès que le contexte "user" est mis à jour.
   try {
     // ToDo : appeler
-    await loginUser(login, password)
+    await loginUser(login, password);
   } catch (error) {
     Alert.alert("Identifiants incorrects"); // Affiche une erreur si échec
   }

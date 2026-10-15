@@ -23,11 +23,12 @@ export function AuthProvider({ children }) {
   const logoutUser = () => {
     // ToDo : réinitialiser la valeur de l’état à null
     setUser(null);
+    setToken(null);
   };
 
   // 5. Valeurs exposées aux composants enfants
   return (
-    <AuthContext.Provider value={{ token, user, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ token, user, loginUser, logoutUser, sessionLoading }}>
       {children}
     </AuthContext.Provider>
   );
@@ -46,6 +47,7 @@ useEffect(
       } catch (error) {
         console.error("Erreur lors de la restauration de session : ", error);
       }
+      setSessionLoading(false);
     };
     // ToDo : appeler la fonction restoreSession
     restoreSession();

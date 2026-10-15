@@ -1,4 +1,4 @@
-import { View, Text,TextInput, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
@@ -9,29 +9,37 @@ import { Switch } from "react-native";
 
 
 export default function DashboardScreen() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [fraisList, setFraisList] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPrix, setFilteredPrix] = useState(0);
   const [filterNonNull, setFilterNonNull] = useState(true);
   const onToggleSwitch = () => setFilterNonNull(!filterNonNull);
 
   const filteredValide = fraisList.filter((frais) => frais.montantvalide !== null);
-  const filteredFraisPrix = filteredValide.filter((frais) => frais.montantvalide >= filteredPrix||filteredPrix===null);
+  const filteredFraisPrix = filteredValide.filter((frais) => frais.montantvalide >= filteredPrix || filteredPrix === null);
   const filteredFrais = filteredFraisPrix.filter((frais) =>
-    (searchTerm === frais.anneemois || searchTerm == frais.id_visiteur)||filterNonNull);
+    (searchTerm === frais.anneemois || searchTerm == frais.id_visiteur) || filterNonNull);
 
 
   useEffect(() => {
-    // Simulation d'un appel API avec un délai de 500 ms
-    setTimeout(() => {
-      // ToDo : mettre à jour fraisList avec les données de fraisData
-      // ToDo : passer loading à false
-      setFraisList(fraisData);
-      setLoading(false);
-    }, 1500);
+    const fetchFrais = async () => {
+      try {
+        // ToDo : faire un appel API à l’URL `${API_URL}frais/liste/$
+        // {user.id_visiteur}` en sécurisant avec le token et stocker la Promise renvoyée
+        // dans une variable response
+        // ToDo : extraire les données de la réponse et les stocker dans data
+        // ToDo : mettre à jour l'état fraisList avec data
+        // ToDo : mettre fin à l'état de chargement
+        f
+      } catch (error) {
+        // ToDo : afficher un message d’erreur dans la console du navigateur
+        // ToDo : arrêter le chargement même en cas d'erreur
+      }
+    };
+    // ToDo : appeler fetchFrais
   }, []);
   if (loading) return <ActivityIndicator size="large" style={{ marginTop: 40 }} />;
 
@@ -51,8 +59,8 @@ export default function DashboardScreen() {
           <Switch
             value={filterNonNull}
             onValueChange={onToggleSwitch}
-            // ToDo : compléter onValueChange (équivalent de onChange={e =>...e.target.checked})
-            />
+          // ToDo : compléter onValueChange (équivalent de onChange={e =>...e.target.checked})
+          />
           <Text>Afficher seulement les frais avec un montant validé</Text>
         </View>
         <TextInput
@@ -66,7 +74,7 @@ export default function DashboardScreen() {
           data={filteredFrais}
           keyExtractor={(item) => item.id_frais.toString()}
           renderItem={({ item }) => <FraisCard frais={item} />}
-          
+
         />
       </View>
     </View>

@@ -26,34 +26,37 @@ export function AuthProvider({ children }) {
     setToken(null);
   };
 
+  useEffect(
+    () => {
+      const restoreSession = async () => {
+        try {
+          const storedUser = await getCurrentUser();
+          const storedToken = await getAuthToken();
+          if (storedUser && storedToken) {
+            // ToDo : mettre à jour les états user et token
+            setUser(storedUser);
+            setToken(storedToken);
+          }
+        } catch (error) {
+          console.error("Erreur lors de la restauration de session : ", error);
+        }
+        setSessionLoading(false);
+      };
+      // ToDo : appeler la fonction restoreSession
+      restoreSession();
+    },
+    [], // ToDo : ajouter la dépendance [] qui permet de déclencher ce useEffect une seule fois au montage du composant
+  );
+
   // 5. Valeurs exposées aux composants enfants
   return (
-    <AuthContext.Provider value={{ token, user, loginUser, logoutUser, sessionLoading }}>
+    <AuthContext.Provider
+      value={{ token, user, loginUser, logoutUser, sessionLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
-useEffect(
-  () => {
-    const restoreSession = async () => {
-      try {
-        const storedUser = await getCurrentUser();
-        const storedToken = await getAuthToken();
-        if (storedUser && storedToken) {
-          // ToDo : mettre à jour les états user et token
-          setUser(storedUser);
-          setToken(storedToken);
-        }
-      } catch (error) {
-        console.error("Erreur lors de la restauration de session : ", error);
-      }
-      setSessionLoading(false);
-    };
-    // ToDo : appeler la fonction restoreSession
-    restoreSession();
-  }, []// ToDo : ajouter la dépendance [] qui permet de déclencher ce useEffect une seule fois au montage du composant
-
-);
 export const getCurrentUser = async () => {
   const raw = await AsyncStorage.getItem("user");
   // ToDo : renvoyer l'objet JS correspondant (penser à JSON.parse), ou null si raw est vide
